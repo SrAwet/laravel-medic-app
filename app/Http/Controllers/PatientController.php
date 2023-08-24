@@ -23,11 +23,22 @@ class PatientController extends Controller
         $patient->update($request->all());
         return response()->json($patient,200);
     }
-    
-    public function destroy(string $id)
+
+    // Funcion para cambiar estatus
+    public function updateStatus(Request $request, string $id)
     {
         $patient = Patient::findOrFail($id);
-        $patient->delete();
-        return response()->json(null, 204);
+
+        // Actualiza el estado del paciente
+        $newStatus = $request->input('status');
+        $patient->update(['status' => $newStatus]);
+
+        return response()->json($patient, 200);
     }
+
+    // Usar en PostMan metodo Put y en el cuerpo lleva lo siguiente
+    //  {
+    //     "status": "inactive"
+    //  }
+
 }
